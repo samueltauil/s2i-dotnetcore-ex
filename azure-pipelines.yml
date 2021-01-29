@@ -32,10 +32,10 @@ steps:
   inputs:
     connectionType: 'OpenShift Connection Service'
     openshiftService: 'exelon-cluster'
-    cmd: 'oc expose service s2i-dotnetcore-ex'
+    cmd: 'oc expose service s2i-dotnetcore-ex -n dotnetcore-demo'
     ignoreFlag: true
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
     openshiftService: 'exelon-cluster'
-    cmd: 'oc scale dc/s2i-dotnetcore-ex --replicas=3'
+    cmd: 'oc scale deployment s2i-dotnetcore-ex --replicas=3 -n dotnetcore-demo'
