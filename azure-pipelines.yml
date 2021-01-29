@@ -1,0 +1,41 @@
+trigger:
+ branches:
+   include:
+     - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+steps:
+- task: oc-setup@2
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'exelon-cluster'
+- task: oc-cmd@2
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'exelon-cluster'
+    cmd: 'oc new-project dotnetcore-demo'
+    ignoreFlag: true
+- task: oc-cmd@2
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'openshift-user'
+    cmd: 'oc delete all --all -n dotnetcore-demo'
+    ignoreFlag: true
+- task: oc-cmd@2
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'openshift-user'
+    cmd: 'oc new-app dotnet:3.1~https://github.com/redhat-developer/s2i-dotnetcore-ex#dotnetcore-3.1 --context-dir=app -l app=demo -n dotnetcore-demo'
+    ignoreFlag: true
+- task: oc-cmd@2
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'exelon-cluster'
+    cmd: 'oc expose service s2i-dotnetcore-ex'
+    ignoreFlag: true
+- task: oc-cmd@2
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'exelon-cluster'
+    cmd: 'oc scale dc/s2i-dotnetcore-ex --replicas=3'
