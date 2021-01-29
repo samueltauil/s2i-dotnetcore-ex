@@ -19,13 +19,13 @@ steps:
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'openshift-user'
+    openshiftService: 'exelon-cluster'
     cmd: 'oc delete all --all -n dotnetcore-demo'
     ignoreFlag: true
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'openshift-user'
+    openshiftService: 'exelon-cluster'
     cmd: 'oc new-app dotnet:3.1~https://github.com/redhat-developer/s2i-dotnetcore-ex#dotnetcore-3.1 --context-dir=app -l app=demo -n dotnetcore-demo'
     ignoreFlag: true
 - task: oc-cmd@2
