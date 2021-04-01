@@ -9,33 +9,33 @@ steps:
 - task: oc-setup@2
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'exelon-cluster'
+    openshiftService: 'test-cluster'
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'exelon-cluster'
+    openshiftService: 'test-cluster'
     cmd: 'oc new-project dotnetcore-demo'
     ignoreFlag: true
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'exelon-cluster'
+    openshiftService: 'test-cluster'
     cmd: 'oc delete all --all -n dotnetcore-demo'
     ignoreFlag: true
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'exelon-cluster'
+    openshiftService: 'test-cluster'
     cmd: 'oc new-app dotnet:3.1~https://github.com/redhat-developer/s2i-dotnetcore-ex#dotnetcore-3.1 --context-dir=app -l app=demo -n dotnetcore-demo'
     ignoreFlag: true
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'exelon-cluster'
+    openshiftService: 'test-cluster'
     cmd: 'oc expose service s2i-dotnetcore-ex -n dotnetcore-demo'
     ignoreFlag: true
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'exelon-cluster'
+    openshiftService: 'test-cluster'
     cmd: 'oc scale deployment s2i-dotnetcore-ex --replicas=3 -n dotnetcore-demo'
